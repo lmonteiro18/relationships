@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import classes from "../styles/scss/home.module.scss";
 
 export default function Homepage() {
@@ -67,7 +68,7 @@ export default function Homepage() {
                 value="Login"
               />
             </form>
-            <a href="/register">Don't have an account?</a>
+            <Link href="/register">Don't have an account?</Link>
           </div>
         </div>
       ) : (
