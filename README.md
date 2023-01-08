@@ -5,7 +5,7 @@ Este repositório contem o código da aplicação "Understanding Relationship Pa
 
 -----Conceito-----
 
-Esta aplicação web procura servir como uma plataforam de visualização de dados relativos a relações amorosas passadas de inúmeras pessoas, quer a nível glboal, quer a nível local e pessoal. A visualização implementada utiliza glifos para representar cada uma das relações, permitindo a análise de diversos parâmetros.
+Esta aplicação web procura servir como uma plataforma de visualização de dados relativos a relações amorosas passadas de inúmeras pessoas, quer a nível global, quer a nível local e pessoal. A visualização implementada utiliza glifos para representar cada uma das relações, permitindo a análise de diversos parâmetros.
 
 -----Executar a aplicação-----
 
