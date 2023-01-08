@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 import connectMongoose from "../../utils/connectMongoose";
 import Relationship from "../../models/relationshipModel";
-import answers from "../../public/data/form_answers.json";
 
 /**
  * @param {import('next).NextApiRequest} req
