@@ -1,0 +1,20 @@
+@import "core.module";
+
+.popup {
+  .popup_container {
+    width: 350px;
+    height: auto;
+    font-family: $font;
+
+    ul {
+      padding: 10px;
+
+      li {
+        font-weight: 500;
+        b {
+          font-weight: 800;
+        }
+      }
+    }
+  }
+}
