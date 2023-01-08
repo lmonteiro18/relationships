@@ -1,34 +1,16 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Understanding Relationship Patterns
+por Luís Monteiro
 
-## Getting Started
+Este repositório contem o código da aplicação "Understanding Relationship Patterns" desenvolvida no âmbito da unidade curricular "Laboratório de Design Computacional" do Mestrado em Design e Multimédia da Universidade de Coimbra.
 
-First, run the development server:
+-----Conceito-----
+Esta aplicação web procura servir como uma plataforam de visualização de dados relativos a relações amorosas passadas de inúmeras pessoas, quer a nível glboal, quer a nível local e pessoal. A visualização implementada utiliza glifos para representar cada uma das relações, permitindo a análise de diversos parâmetros.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+-----Executar a aplicação-----
+Para executar esta aplicação deve seguir os passos abaixo:
+1. Clonar o repositório para o seu ambiente local;
+2. Navegar para a pasta do repositório através do terminal;
+3. Uma vez dentro da pasta, executar o comando "npm run dev" para iniciar a aplicação;
+4. Aceder a "localhost:3000" no seu browser;
+5. A aplicação está pronta a usar!
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
