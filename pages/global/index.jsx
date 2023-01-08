@@ -1,22 +1,17 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import classes from "../../styles/scss/globalPage.module.scss";
-//import answers from "../../public/data/form_answers.json";
-//import country_codes from "../../public/data/country_codes.json";
 import country_names_pt from "../../public/data/country_names_portuguese.json";
 import country_names_en from "../../public/data/country_names_english.json";
-//import { countiesLayer, highlightLayer } from "../../public/data/layers.js";
-import Map, { Marker, Source, Layer } from "react-map-gl";
+import Map, { Marker } from "react-map-gl";
 import GroupMarker from "../../components/GroupMarker";
 import CustomMarker from "../../components/CustomMarker";
 import BarraSentimentos from "../../components/BarraSentimentos";
-//import axios from "axios";
 import connectMongoose from "../../utils/connectMongoose";
 import Relationship from "../../models/relationshipModel";
 
 export default function GlobalPage(props) {
-  const [windowWidth, setWindowWidth] = useState();
-  const [windowHeight, setWindowHeight] = useState();
+  //--------------------------------------VARIÁVEIS--------------------------------------
   const [viewState, setViewState] = useState({
     longitude: -7.8536599,
     latitude: 39.557191,
@@ -44,20 +39,20 @@ export default function GlobalPage(props) {
   const [visualizationMode, setVisualizationMode] = useState(0);
   const [scope, setScope] = useState(0);
   const [user, setUser] = useState("login necessário");
-  const [mapClickInfo, setMapClickInfo] = useState(null);
   const [markerType, setMarkerType] = useState(0);
   const [showDicas, setShowDicas] = useState(true);
   const [showLegenda, setShowLegenda] = useState(true);
+  //--------------------------------------------------------------------------------
 
+  //Ir buscar utilizador logado
   useEffect(() => {
     if (sessionStorage.getItem("user") !== null) {
       setUser(sessionStorage.getItem("user"));
     }
-    console.log("props.country_coordinates", props.country_coordinates);
-    //console.log("Sentimentos:", sentimentos);
-    //console.log("Grupos Sentimentos:", props.gruposSentimentos);
   }, []);
+  //---------------------------------------------------------------
 
+  //Filtrar relações quando o scope ou o país selecionado mudam
   useEffect(() => {
     if (scope === 0) {
       if (selectedCountry === "Global") {
@@ -75,7 +70,6 @@ export default function GlobalPage(props) {
             ? props.answers_per_country[selectedCountry].stats.idade_media
             : "Sem dados"
         );
-        //console.log("Stats:", props.answers_per_country[selectedCountry]);
         let filtered_answers = props.updated_answers.filter((item, i) => {
           return item.pais.trim() === selectedCountry;
         });
@@ -110,11 +104,9 @@ export default function GlobalPage(props) {
       setAllAnswers(filtered_answers);
     }
   }, [scope, selectedCountry]);
+  //---------------------------------------------------------------
 
-  useEffect(() => {
-    //console.log("allAnswers:", allAnswers);
-  }, [allAnswers]);
-
+  //Selecionar todas as checkoboxes dos parâmetros no início da visualização e quando o modo volta para "Livre" para o glifo aparecer completo
   useEffect(() => {
     if (visualizationMode === 0) {
       document.querySelector("#motivo_termino").checked = true;
@@ -123,7 +115,6 @@ export default function GlobalPage(props) {
       document.querySelector("#orientacao").checked = true;
       document.querySelector("#diferenca_idades").checked = true;
       document.querySelector("#nivel").checked = true;
-      //document.querySelector("#quem_terminou").checked = true;
       document.querySelector("#relacoes_apos_termino").checked = true;
       document.querySelector("#genero1").checked = true;
       document.querySelector("#genero2").checked = true;
@@ -134,14 +125,15 @@ export default function GlobalPage(props) {
         orientacao: true,
         diferenca_idades: true,
         nivel: true,
-        //quem_terminou: true,
         relacoes_apos_termino: true,
         genero1: true,
         genero2: true,
       });
     }
   }, [visualizationMode]);
+  //---------------------------------------------------------------
 
+  //Listener para alterações na condição checked das checboxes de parâmetros
   function onCheckboxChange(e) {
     const id = e.target.id;
     const checked = e.target.checked;
@@ -186,23 +178,20 @@ export default function GlobalPage(props) {
         [id]: checked,
       };
     });
-    //document.querySelector("#Visualization").innerHTML = "";
   }
+  //---------------------------------------------------------------
 
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-    setWindowHeight(window.innerHeight);
-  }, [checkboxesValues]);
-
+  //Mudar modo de visualização ("Livre" ou "Origens das pessoas na relação")
   function changeMode(e) {
     const value = e.target.value;
-    //console.log("Value:", value);
     setVisualizationMode(Number(value));
     if (Number(value) === 0) {
     } else if (Number(value) === 1) {
     }
   }
+  //---------------------------------------------------------------
 
+  //Alterar scope da visualização ("Global" ou "Pessoal")
   function changeScope(e) {
     const value = e.target.value;
 
@@ -211,23 +200,16 @@ export default function GlobalPage(props) {
     } else if (Number(value) === 1) {
     }
   }
+  //---------------------------------------------------------------
 
+  //Handler para cliques no mapa (para selecionar um país)
   async function handleMapClick(event) {
-    //console.log(event);
-    //console.log("Event Features:", event.lngLat);
-
     try {
       const response = await fetch(
         `https://api.tiles.mapbox.com/v4/geocode/mapbox.places-country-v1/${event.lngLat.lng},${event.lngLat.lat}.json?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`
       )
         .then((response) => response.json())
         .then((data) => {
-          //console.log("Data:", data);
-          //console.log("Country:", data.features[0].text);
-
-          //console.log("country_names_pt", country_names_pt);
-          //console.log("country_names_en", country_names_en);
-
           let country_id1;
           let country_english;
 
@@ -235,11 +217,9 @@ export default function GlobalPage(props) {
             country_id1 = country_names_pt.find((item) => {
               return item.name === selectedCountry;
             }).id;
-            //console.log("country_id1:", country_id1);
             country_english = country_names_en.find((item) => {
               return item.id === country_id1;
             }).name;
-            //console.log("country_english", country_english);
           } else {
             country_english = selectedCountry;
           }
@@ -248,15 +228,12 @@ export default function GlobalPage(props) {
             setSelectedCountry("Global");
             setMarkerType(0);
           } else {
-            //console.log("English:", country_english);
             let country_id2 = country_names_en.find((item, i) => {
               return item.name === data.features[0].text;
             }).id;
-            //console.log("country_id2:", country_id2);
             let country_portuguese = country_names_pt.find((item) => {
               return item.id === country_id2;
             }).name;
-            //console.log("country_portuguese", country_portuguese);
 
             setSelectedCountry(country_portuguese);
             setMarkerType(1);
@@ -264,20 +241,26 @@ export default function GlobalPage(props) {
         });
     } catch (err) {
       console.log(err);
-      //setSelectedCountry("Global");
     }
   }
+  //---------------------------------------------------------------
 
+  //Mostrar/Esconder Dicas no canto inferior direito
   function toggleDicas() {
     setShowDicas((prevValue) => !prevValue);
   }
+  //---------------------------------------------------------------
 
+  //Mostrar/Esconder Legenda
   function toggleLegenda() {
     setShowLegenda((prevValue) => !prevValue);
   }
+  //---------------------------------------------------------------
 
+  //---------------------------------------ESTRUTURA---------------------------------------
   return (
     <main className={classes.main}>
+      {/* ------------------------------------------- BARRA LATERAL ESQUERDA------------------------------------------- */}
       <div className={classes.lateral_bar}>
         <div className={classes.title_container}>
           <h1 className={classes.title}>
@@ -395,19 +378,6 @@ export default function GlobalPage(props) {
                   <span className={classes.custom_checkbox}></span>
                   <p>Nível mais alto da relação</p>
                 </label>
-                {/* <label
-                  htmlFor="quem_terminou"
-                  className={classes.param_checkbox_label}
-                >
-                  <input
-                    type="checkbox"
-                    name="params"
-                    id="quem_terminou"
-                    onChange={onCheckboxChange}
-                  />
-                  <span className={classes.custom_checkbox}></span>
-                  <p>Quem terminou</p>
-                </label> */}
                 <label
                   htmlFor="relacoes_apos_termino"
                   className={classes.param_checkbox_label}
@@ -452,6 +422,8 @@ export default function GlobalPage(props) {
           )}
         </div>
       </div>
+      {/* -------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------- STATS LATERAIS DIREITA ------------------------------------------- */}
       <div className={classes.superior_bar}>
         <div className={classes.info_container}>
           <div className={classes.country_container}>
@@ -474,6 +446,8 @@ export default function GlobalPage(props) {
           </div>
         </div>
       </div>
+      {/* -------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------- MAPA ------------------------------------------- */}
       <Map
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
@@ -576,7 +550,8 @@ export default function GlobalPage(props) {
               }
             })}
       </Map>
-      {/* <div id="Visualization" className={classes.visualization_container}></div> */}
+      {/* -------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------- DICAS E LEGENDA ------------------------------------------- */}
       <aside className={classes.aside}>
         <button className={classes.botao_legendas} onClick={toggleLegenda}>
           ?
@@ -628,7 +603,8 @@ export default function GlobalPage(props) {
             width="1280"
             height="720"
           />
-          <button onClick={toggleLegenda}>
+          <button onClick={toggleLegenda} name="button">
+            <p style={{ display: "none" }}>Legenda</p>
             <img
               src="images/cruz-13.png"
               role="presentation"
@@ -642,6 +618,7 @@ export default function GlobalPage(props) {
   );
 }
 
+//FUNÇÃO PARA FAZER FETCH DOS DADOS NECESSÁRIOS PARA A VISUALIZAÇÃO A PARTIR DO BACKEND
 export async function getServerSideProps() {
   //conexão ao mongoose
   await connectMongoose();
@@ -790,6 +767,7 @@ export async function getServerSideProps() {
       updated_answers.push({});
     }
   }
+  //----------------------------------------------------------------------------------------------
 
   //--------------------------------------Respostas por país--------------------------------------
   let answers_per_country = {};
@@ -839,10 +817,12 @@ export async function getServerSideProps() {
   }
   //console.log("answers_per_country:", answers_per_country);
 
+  //----------------------------------------------------------------------------------------------
+
   //--------------------------------------Todas as respostas (sentimentos)--------------------------------------
   let stats = groupedStats(updated_answers);
 
-  //--------------------------------------Função para calcular stats--------------------------------------
+  //Função para calcular stats
   function groupedStats(all_answers) {
     let contagem_sentimentos = {};
 
@@ -861,7 +841,6 @@ export async function getServerSideProps() {
         return contagem_sentimentos[b] - contagem_sentimentos[a];
       }
     );
-    //console.log("sentimentos_ordenados:", sentimentos_ordenados);
 
     let quantidades_ordenadas = [];
     for (let i = 0; i < sentimentos_ordenados.length; i++) {
@@ -869,9 +848,7 @@ export async function getServerSideProps() {
         contagem_sentimentos[sentimentos_ordenados[i]]
       );
     }
-    //console.log("Quantidades Ordenadas:", quantidades_ordenadas);
 
-    //console.log("Sentimentos:", sentimentos);
     let grupo_outros = [];
     let contagem_grupo_outros = 0;
     sentimentos_ordenados.forEach((sentimento, i) => {
@@ -880,8 +857,6 @@ export async function getServerSideProps() {
         contagem_grupo_outros += quantidades_ordenadas[i];
       }
     });
-    //console.log("grupo_outros:", grupo_outros);
-    //console.log("contagem_grupo_outros:", contagem_grupo_outros);
 
     let updated_groups = sentimentos_ordenados;
     for (let i = 0; i < grupo_outros.length; i++) {
@@ -890,14 +865,12 @@ export async function getServerSideProps() {
       });
     }
     updated_groups.push("Outros");
-    //console.log("updated_groups:", updated_groups);
 
     let updated_count = quantidades_ordenadas.filter((item, j) => {
       return item >= 3;
     });
 
     updated_count.push(contagem_grupo_outros);
-    //console.log("updated_count:", updated_count);
 
     let total_count = 0;
     updated_count.forEach((item, i) => {
@@ -909,17 +882,14 @@ export async function getServerSideProps() {
     let primeiras_relacoes = updated_answers.filter((item, i) => {
       return item.primeira_relacao === "Sim";
     });
-    //console.log("primeiras_relacoes:", primeiras_relacoes);
 
     let idades_primeiras_relacoes = [];
     primeiras_relacoes.forEach((item, i) => {
       idades_primeiras_relacoes.push(item.idade_inicio1);
     });
-    //console.log("idades_primeiras_relacoes:", idades_primeiras_relacoes);
 
     let soma = idades_primeiras_relacoes.reduce((a, b) => a + b);
     let idade_media = Math.round(soma / idades_primeiras_relacoes.length);
-    //console.log("idade_media:", idade_media);
 
     return {
       updated_groups,
@@ -929,7 +899,7 @@ export async function getServerSideProps() {
     };
   }
 
-  //console.log("updated_answers:", updated_answers);
+  //----------------------------------------------------------------------------------------------
 
   return {
     props: {

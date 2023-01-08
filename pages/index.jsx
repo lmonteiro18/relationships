@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import classes from "../styles/scss/home.module.scss";
 
 export default function Homepage() {
+  //----------------------------------------------VARIÁVEIS----------------------------------------------
   const router = useRouter();
   const [showErrors, setShowErrors] = useState("");
   const [loading, setLoading] = useState(false);
+  //---------------------------------------------------------------------------------
 
-  useEffect(() => {}, [showErrors]);
-
+  //Handler da submissão do formulário de Login
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -38,6 +39,7 @@ export default function Homepage() {
     }
   }
 
+  //----------------------------------------------ESTRUTURA----------------------------------------------
   return (
     <main className={classes.main}>
       {loading === false ? (

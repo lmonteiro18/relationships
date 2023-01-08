@@ -3,8 +3,11 @@ import { useState } from "react";
 import classes from "../styles/scss/components.module.scss";
 
 export default function CustomMarker(props) {
+  //----------------------------------VARIÁVEIS----------------------------------
   const [showPopup, setShowPopup] = useState(false);
+  //--------------------------------------------------------------------
 
+  //Alterar visibilidade do popup que mostra mais detalhes da relação
   function changePopupVisibility() {
     setShowPopup(true);
   }
@@ -12,6 +15,7 @@ export default function CustomMarker(props) {
   let answer = props.answer;
   let checkboxesValues = props.checkboxesValues;
 
+  //------------------------------------CÁLCULOS PARA O DESENHO DO GLIFO------------------------------------
   let centerX;
   let centerY;
 
@@ -33,6 +37,7 @@ export default function CustomMarker(props) {
   let width = centerX * 2;
   let height = centerY * 2;
 
+  //--------------------------------------------------DURAÇÃO RELAÇÃO
   let duracao = answer.duracao.trim();
   let percentage;
   if (checkboxesValues.duracao === true) {
@@ -59,6 +64,7 @@ export default function CustomMarker(props) {
 
   let division = percentage / (100 / 8);
 
+  //--------------------------------------------------TEVE MAIS RELAÇÕES APÓS
   let teve_mais_relacoes = answer.teve_mais_relacoes.trim();
   let ring_color;
   if (checkboxesValues.relacoes_apos_termino === true) {
@@ -73,6 +79,7 @@ export default function CustomMarker(props) {
     ring_color = "rgba(35,31,32,1)";
   }
 
+  //--------------------------------------------------GÉNEROS E ORIENTAÇÃO
   let genero1 = answer.genero1.trim();
   let genero2 = answer.genero2.trim();
   let orientacao = answer.orientacao.trim();
@@ -144,6 +151,7 @@ export default function CustomMarker(props) {
   let rot_angle2 = arrow_directions[1] * (360 / 7);
   let rot_angle3 = arrow_directions[2] * (360 / 14);
 
+  //--------------------------------------------------DIFERENÇA IDADES
   let age_difference = Math.abs(answer.idade_inicio1 - answer.idade_inicio2);
 
   let raio2;
@@ -161,7 +169,7 @@ export default function CustomMarker(props) {
     raio2 = 27;
   }
 
-  //----------------------------------Reason for Ending----------------------------------
+  //--------------------------------------------------MOTIVO DO TÉRMINO
   let motivo_termino = answer.motivo_termino.split("_")[0].trim();
   let color;
   if (motivo_termino === "Os sentimentos deixaram de ser os mesmos") {
@@ -193,7 +201,7 @@ export default function CustomMarker(props) {
     color = "rgba(193,193,193,1)";
   }
 
-  //----------------------------------How People Met, Highest Level and Who Ended----------------------------------
+  //--------------------------------------------------MEIO DE CONHECIMENTO E NIVEL DA RELAÇÃO
   let meio_conhecimento = answer.meio_conhecimento.trim();
   let nivel = answer.nivel.trim();
   let stroke_width;
@@ -212,10 +220,9 @@ export default function CustomMarker(props) {
       : (stroke_width = 1);
   }
 
-  let quem_terminou = answer.quem_terminou.trim();
-
   let inc_raio = 1;
 
+  //----------------------------------Degrees to Radians Function----------------------------------
   function degrees_to_radians(degrees) {
     var pi = Math.PI;
     return degrees * (pi / 180);
@@ -227,8 +234,10 @@ export default function CustomMarker(props) {
     return radians * (180 / pi);
   }
 
+  //---------------------------------------ESTRUTURA--------------------------------------------
   return (
     <>
+      {/*------------------------------MARKER (GLIFO DE UMA ÚNICA RELAÇÃO)------------------------------*/}
       <Marker
         longitude={answer.lat}
         latitude={answer.lng}
@@ -527,12 +536,6 @@ export default function CustomMarker(props) {
                           }
                           stroke="rgba(35,31,32,1)"
                           strokeWidth={stroke_width}
-                          /* clipPath={
-                        quem_terminou !== "Decisão mútua" &&
-                        `url(#clip-${raio2}-${
-                          quem_terminou === "Eu" ? "135" : "45"
-                        })`
-                      } */
                         ></circle>
                         <circle
                           cx={centerX}
@@ -604,12 +607,6 @@ export default function CustomMarker(props) {
                           }
                           stroke="rgba(35,31,32,1)"
                           strokeWidth={stroke_width}
-                          /* clipPath={
-                        quem_terminou !== "Decisão mútua" &&
-                        `url(#clip-${raio2}-${
-                          quem_terminou === "Eu" ? "135" : "45"
-                        })`
-                      } */
                         ></polygon>
                         <polygon
                           points={points.trim()}
@@ -651,12 +648,6 @@ export default function CustomMarker(props) {
                           }
                           stroke="rgba(35,31,32,1)"
                           strokeWidth={stroke_width}
-                          /* clipPath={
-                  quem_terminou !== "Decisão mútua" &&
-                  `url(#clip-${raio2}-${
-                    quem_terminou === "Eu" ? "135" : "45"
-                  })`
-                } */
                         ></polygon>
                         <polygon
                           points={points.trim()}
@@ -671,19 +662,8 @@ export default function CustomMarker(props) {
             </g>
           </g>
         </svg>
-        {/* <svg
-      height={40}
-      style={{
-        cursor: "pointer",
-        fill: "#d00",
-        stroke: "none",
-        transform: `translate(${-40 / 2}px,${-40}px)`,
-      }}
-      onClick={() => onClick(city)}
-    >
-      <circle cx="20" cy="20" r="5" fill="black"></circle>
-    </svg> */}
       </Marker>
+      {/*------------------------------POPUP COM DETALHES DA RELAÇÃO------------------------------*/}
       {showPopup && (
         <Popup
           longitude={answer.lat}

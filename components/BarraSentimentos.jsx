@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import classes from "../styles/scss/globalPage.module.scss";
 
 export default function BarraSentimentos(props) {
+  //----------------------------------VARIÁVEIS----------------------------------
   const [gruposSentimentos, setGruposSentimentos] = useState(props.sentimentos);
+  //--------------------------------------------------------------------
 
   useEffect(() => {
     console.log("props.sentimentos:", gruposSentimentos);
   }, []);
 
+  //----------------------------------ESTRUTURA----------------------------------
   return (
     <div className={classes.barra_sentimentos}>
       {gruposSentimentos !== undefined &&
@@ -23,7 +26,6 @@ export default function BarraSentimentos(props) {
           let width =
             (gruposSentimentos.updated_count[i] * 100) /
             gruposSentimentos.total_count;
-          //console.log("width:", width);
           return (
             <div
               key={i}
