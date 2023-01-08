@@ -76,7 +76,11 @@ export default function SubmitAnswerPage() {
       setSuccess(true);
       setTimeout(() => router.push("/"), 2000);
     } else {
-      setShowErrors(result.error !== undefined ? result.error : result.message);
+      setShowErrors(
+        result.error !== undefined
+          ? result.error.message
+          : "Houve um erro ao submeter a resposta"
+      );
     }
   }
 

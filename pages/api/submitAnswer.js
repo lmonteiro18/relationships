@@ -44,14 +44,6 @@ export default async function handler(req, res) {
     teve_mais_relacoes,
   } = req.body;
 
-  /* let sentimentos = [];
-   for (let i = 0; i < 15; i++) {
-    if (req.body[`sentimentos${i + 1}`] !== undefined) {
-      sentimentos.push(req.body[`sentimentos${i + 1}`]);
-    }
-  } */
-  //console.log("Sentimentos", sentimentos);
-
   const relationship = new Relationship({
     username: username,
     idade_atual: idade_atual,
@@ -81,8 +73,6 @@ export default async function handler(req, res) {
     informacao_extra: informacao_extra,
     teve_mais_relacoes: teve_mais_relacoes,
   });
-
-  //console.log("Relationship:", relationship);
 
   try {
     const newRelationship = await relationship.save();

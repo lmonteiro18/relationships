@@ -581,15 +581,21 @@ export default function GlobalPage(props) {
               <li>
                 Escolhe parâmetros no menu da esquerda para alterares o glifo
               </li>
+              <li>
+                Passa com o rato por cima da barra de sentimentos para veres as
+                percentagens
+              </li>
             </ul>
           )}
           {visualizationMode === 1 && showDicas === true && (
             <ul>
               <li>
-                <li>
-                  Clica num país para mostrar origem e destino de relações do
-                  mesmo (clica outra vez para desselecionar)
-                </li>
+                Clica num país para mostrar origem e destino de relações do
+                mesmo (clica outra vez para desselecionar)
+              </li>
+              <li>
+                Passa com o rato por cima da barra de sentimentos para veres as
+                percentagens
               </li>
             </ul>
           )}
