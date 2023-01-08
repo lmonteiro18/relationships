@@ -29,7 +29,7 @@ export default function Homepage() {
 
     const response = await fetch("/api/login", options);
     const result = await response.json();
-    console.log("Result", result);
+
     if (result.success !== undefined && result.success === true) {
       setLoading(true);
       sessionStorage.setItem("user", result.user);

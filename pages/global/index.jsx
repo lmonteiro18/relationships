@@ -798,7 +798,7 @@ export async function getServerSideProps() {
       console.log("Error:", err);
     }
 
-    console.log(fetched_answer4.features[0]);
+    //console.log(fetched_answer4.features[0]);
 
     if (fetched_answer4.features[0].place_type[0] === "country") {
       answers_per_country[property].coordinates = {

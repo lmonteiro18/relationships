@@ -41,8 +41,6 @@ export default function GroupMarker(props) {
     for (const property of Object.keys(contagem_sentimentos)) {
       let opcoes_ordenadas = Object.keys(contagem_sentimentos[property]).sort(
         function (a, b) {
-          console.log(contagem_sentimentos[property][a]);
-          console.log(contagem_sentimentos[property][b]);
           return (
             contagem_sentimentos[property][b] -
             contagem_sentimentos[property][a]
@@ -50,7 +48,6 @@ export default function GroupMarker(props) {
         }
       );
 
-      console.log(`opcoes_ordenadas ${property}:`, opcoes_ordenadas);
       answer[property] = opcoes_ordenadas[0];
     }
 
@@ -58,8 +55,6 @@ export default function GroupMarker(props) {
   }
 
   let answer = countryValues(props.group);
-
-  console.log("answer:", answer);
 
   let checkboxesValues = props.checkboxesValues;
 

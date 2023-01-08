@@ -39,16 +39,17 @@ export default async function handler(req, res) {
     esperado,
     desenvolvimento_termino,
     motivo_termino,
+    sentimentos,
     informacao_extra,
     teve_mais_relacoes,
   } = req.body;
 
-  let sentimentos = [];
-  for (let i = 0; i < 15; i++) {
+  /* let sentimentos = [];
+   for (let i = 0; i < 15; i++) {
     if (req.body[`sentimentos${i + 1}`] !== undefined) {
       sentimentos.push(req.body[`sentimentos${i + 1}`]);
     }
-  }
+  } */
   //console.log("Sentimentos", sentimentos);
 
   const relationship = new Relationship({

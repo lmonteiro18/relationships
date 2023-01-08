@@ -6,10 +6,6 @@ export default function BarraSentimentos(props) {
   const [gruposSentimentos, setGruposSentimentos] = useState(props.sentimentos);
   //--------------------------------------------------------------------
 
-  useEffect(() => {
-    console.log("props.sentimentos:", gruposSentimentos);
-  }, []);
-
   //----------------------------------ESTRUTURA----------------------------------
   return (
     <div className={classes.barra_sentimentos}>

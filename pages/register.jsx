@@ -26,7 +26,7 @@ export default function Register() {
 
     const response = await fetch("/api/register", options);
     const result = await response.json();
-    console.log("Result", result);
+    //console.log("Result", result);
     if (result.success !== undefined && result.success === true) {
       setSuccess(true);
       setTimeout(() => router.push("/"), 2000);

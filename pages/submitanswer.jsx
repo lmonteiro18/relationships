@@ -6,6 +6,7 @@ import classes from "../styles/scss/submitAnswer.module.scss";
 export default function SubmitAnswerPage() {
   const router = useRouter();
   const [success, setSuccess] = useState(false);
+  const [showErrors, setShowErrors] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -52,7 +53,11 @@ export default function SubmitAnswerPage() {
       desenvolvimento_termino: e.target.desenvolvimento_termino.value,
       motivo_termino: e.target.motivo_termino.value,
       sentimentos: sentimentos,
-      informacao_extra: e.target.informacao_extra.value,
+      informacao_extra:
+        e.target.informacao_extra.value !== undefined &&
+        e.target.informacao_extra.value !== ""
+          ? e.target.informacao_extra.value
+          : " ",
       teve_mais_relacoes: e.target.teve_mais_relacoes.value,
     };
 
@@ -66,7 +71,7 @@ export default function SubmitAnswerPage() {
 
     const response = await fetch("/api/submitAnswer", options);
     const result = await response.json();
-    console.log("Result", result);
+    //console.log("Result", result);
     if (result.success !== undefined && result.success === true) {
       setSuccess(true);
       setTimeout(() => router.push("/"), 2000);
@@ -92,6 +97,13 @@ export default function SubmitAnswerPage() {
           </Link>
           <h1 className={classes.title}>Love Relationship Form</h1>
           <div className={classes.form_container}>
+            {showErrors !== "" && (
+              <div className={classes.errorList}>
+                <ul>
+                  <li>{showErrors}</li>
+                </ul>
+              </div>
+            )}
             <form
               action="/api/submitAnswer"
               method="POST"
