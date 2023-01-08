@@ -13,14 +13,11 @@ export default function GroupMarker(props) {
   }
 
   function countryValues(all_answers) {
-    //console.log("Group Marker group 2:", props.group);
-
     all_answers.forEach((answer, i) => {
       all_answers[i].motivo_termino = answer.motivo_termino
         .split("_")[0]
         .trim();
     });
-    //console.log("Group Marker all_answers:", all_answers);
     let answer = {};
     let contagem_sentimentos = {};
 
@@ -40,13 +37,8 @@ export default function GroupMarker(props) {
         }
       }
     });
-    //console.log("Group Marker contagem_sentimentos:", contagem_sentimentos);
 
     for (const property of Object.keys(contagem_sentimentos)) {
-      /* console.log(
-        "contagem_sentimentos[property]",
-        contagem_sentimentos[property]
-      ); */
       let opcoes_ordenadas = Object.keys(contagem_sentimentos[property]).sort(
         function (a, b) {
           console.log(contagem_sentimentos[property][a]);
@@ -61,12 +53,9 @@ export default function GroupMarker(props) {
       console.log(`opcoes_ordenadas ${property}:`, opcoes_ordenadas);
       answer[property] = opcoes_ordenadas[0];
     }
-    //console.log("Group Marker Answer:", answer);
 
     return answer;
   }
-
-  //console.log("props.group:", props.group);
 
   let answer = countryValues(props.group);
 
@@ -575,12 +564,6 @@ export default function GroupMarker(props) {
                           }
                           stroke="rgba(35,31,32,1)"
                           strokeWidth={stroke_width}
-                          /* clipPath={
-                        quem_terminou !== "Decisão mútua" &&
-                        `url(#clip-${raio2}-${
-                          quem_terminou === "Eu" ? "135" : "45"
-                        })`
-                      } */
                         ></circle>
                         <circle
                           cx={centerX}

@@ -15,14 +15,6 @@ export default function BarraSentimentos(props) {
     <div className={classes.barra_sentimentos}>
       {gruposSentimentos !== undefined &&
         gruposSentimentos.updated_groups.map((item, i) => {
-          /* console.log(
-            "gruposSentimentos.updated_count:",
-            gruposSentimentos.updated_count[i]
-          );
-          console.log(
-            "gruposSentimentos.total_count:",
-            gruposSentimentos.total_count
-          ); */
           let width =
             (gruposSentimentos.updated_count[i] * 100) /
             gruposSentimentos.total_count;
